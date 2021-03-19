@@ -25,12 +25,7 @@ namespace Elevator_M42_Echipa4
     {
 
         private Elevator MyElevator;
-        private List<Task> MyTaskList = new List<Task>();
-        private TaskFactory MyTaskFactory = new TaskFactory();
-        private CancellationTokenSource MyCancellationTokenSource = new CancellationTokenSource();
-        private CancellationToken MyCancellationToken;
-
-
+        
         public MainWindow()
         {
             InitializeComponent();
