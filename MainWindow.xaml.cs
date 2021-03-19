@@ -25,14 +25,14 @@ namespace Elevator_M42_Echipa4
     {
 
         private Elevator MyElevator;
-        
+
         public MainWindow()
         {
             InitializeComponent();
 
             Slider.IsEnabled = false;
 
-            MyElevator = new Elevator { CurrentPosition = 0, State = (ElevatorStates)2 };
+            MyElevator = new Elevator { CurrentPosition = 0d, State = (ElevatorStates)2, ElevatorSpeed = 0.032d, ElevatorMerchandiseWeight = 0d };
 
         }
 
@@ -76,7 +76,7 @@ namespace Elevator_M42_Echipa4
 
         private void FloorButtonStop_Click(object sender, RoutedEventArgs e)
         {
-            double currentPos = StopElevator();
+            StopElevator();
         }
 
         #endregion
@@ -85,9 +85,9 @@ namespace Elevator_M42_Echipa4
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-           Slider slider = sender as Slider;
-           
-           MyElevator.State = (ElevatorStates)3;
+            Slider slider = sender as Slider;
+
+            MyElevator.State = (ElevatorStates)3;
         }
 
         #endregion
@@ -116,19 +116,18 @@ namespace Elevator_M42_Echipa4
 
         private async void MoveSlider(int destinationPos)
         {
-            double elevatorSpeed = 0.01;
-            double elevatorCurrentPosition = MyElevator.CurrentPosition;
-            MyElevator.determineDirection(MyElevator,destinationPos);
-            ElevatorStates ECurrentState = MyElevator.GetElevatorStates();
+            double elevatorSpeed = MyElevator.ElevatorSpeed;
+            MyElevator.determineDirection(MyElevator, destinationPos);
+            ElevatorStates ECurrentState = MyElevator.State;
             switch (ECurrentState)
             {
                 case ElevatorStates.Idle:
                     return;
                 case ElevatorStates.GoingUp:
-                    await MoveUp(elevatorSpeed,destinationPos);
+                    await MoveUp(elevatorSpeed, destinationPos);
                     break;
                 case ElevatorStates.GoingDown:
-                    await MoveDown(elevatorSpeed,destinationPos);
+                    await MoveDown(elevatorSpeed, destinationPos);
                     break;
             }
             EnableUI();
@@ -137,8 +136,7 @@ namespace Elevator_M42_Echipa4
 
         private async Task MoveUp(double speed, int destinationPos)
         {
-            
-            while (Slider.Value <= destinationPos)
+            while (Slider.Value < destinationPos)
             {
                 if (MyElevator.State == (ElevatorStates)3)
                 {
@@ -150,15 +148,16 @@ namespace Elevator_M42_Echipa4
                 UpdateCurrentPositionLabel(MyElevator.CurrentPosition);
                 await Task.Delay(1);
             }
+            Slider.Value = Math.Round(Slider.Value, 0);
+            CurrentPositionLabel.Content = $"Current position : {Slider.Value}";
             MyElevator.CurrentPosition = destinationPos;
             MyElevator.State = ElevatorStates.Idle;
-
         }
+
 
         private async Task MoveDown(double speed, int destinationPos)
         {
-           
-            while (Slider.Value >= destinationPos && MyElevator.State!=(ElevatorStates)3)
+            while (Slider.Value > destinationPos && MyElevator.State != (ElevatorStates)3)
             {
                 if (MyElevator.State == (ElevatorStates)3)
                 {
@@ -170,28 +169,23 @@ namespace Elevator_M42_Echipa4
                 UpdateCurrentPositionLabel(MyElevator.CurrentPosition);
                 await Task.Delay(1);
             }
+            Slider.Value = Math.Round(Slider.Value, 0);
+            CurrentPositionLabel.Content = $"Current position : {Slider.Value}";
             MyElevator.CurrentPosition = destinationPos;
             MyElevator.State = ElevatorStates.Idle;
         }
 
-        private double StopElevator()
+        private void StopElevator()
         {
             MyElevator.State = (ElevatorStates)3;
-            double position = MyElevator.CurrentPosition;
-            return position;
-
         }
 
         private void UpdateCurrentPositionLabel(double value)
         {
-            CurrentPositionLabel.Content= $"Current position : {Math.Round(value, 2)}";
+            CurrentPositionLabel.Content = $"Current position : {Math.Round(value, 2)}";
         }
 
-
-
         #endregion
-
-
 
     }
 }
