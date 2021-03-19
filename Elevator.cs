@@ -19,9 +19,7 @@ namespace Elevator_M42_Echipa4
 
     public class Elevator
     {
-        public static int numberOfFloors = 5;
-        public static double elevatorSpeed = 0.025;
-
+        
         public double CurrentPosition { get; set; }
         public ElevatorStates State { get; set; }
 
