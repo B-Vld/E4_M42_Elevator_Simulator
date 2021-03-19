@@ -4,33 +4,6 @@
              xmlns:local="clr-namespace:Elevator_M42_Echipa4"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Button">
-            <Style.Triggers>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect BlurRadius="20" ShadowDepth="0" Color="Silver"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" />
-                            <Ellipse Stroke="Gainsboro" StrokeThickness="4">
-                                <Ellipse.Fill>
-                                    <SolidColorBrush Color="Silver"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <ContentPresenter HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ForceCursor" Value="False"/>
-        </Style>
+       
     </Application.Resources>
 </Application>

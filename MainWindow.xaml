@@ -27,7 +27,7 @@
             <Button x:Name="FloorButtonStop" Content="STOP" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="203,295,201,61"  Click="FloorButtonStop_Click"/>
 
             <Label x:Name="CurrentPositionLabel" Content="Current Position : 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,210"/>
-
+            
             <Slider x:Name="Slider" 
                     Grid.Column="1" 
                     Grid.Row="1" 

@@ -19,12 +19,15 @@ namespace Elevator_M42_Echipa4
 
     public class Elevator
     {
-        
+
         public double CurrentPosition { get; set; }
         public ElevatorStates State { get; set; }
+        public double ElevatorSpeed { get; set; }
 
 
-        private bool isDestinationTheSame(Elevator e,int destinationPos)
+        #region HelperElevatorFunctions
+
+        private bool isDestinationTheSame(Elevator e, int destinationPos)
         {
             if (destinationPos == e.CurrentPosition)
                 return true;
@@ -33,10 +36,10 @@ namespace Elevator_M42_Echipa4
 
         public void determineDirection(Elevator e, int destinationPos)
         {
-            bool t = isDestinationTheSame(e,destinationPos);
+            bool t = isDestinationTheSame(e, destinationPos);
             if (t)
             {
-                e.State = (ElevatorStates)2; 
+                e.State = (ElevatorStates)2;
             }
             else
             {
@@ -47,12 +50,7 @@ namespace Elevator_M42_Echipa4
             }
         }
 
-        public ElevatorStates GetElevatorStates()
-        {
-            return this.State;
-        }
-
-
+        #endregion
 
 
     }

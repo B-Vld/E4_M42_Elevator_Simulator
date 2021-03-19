@@ -21,7 +21,6 @@ C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\MainWindo
 C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\App.g.cs
 C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\Elevator_M42_Echipa4_MarkupCompile.cache
 C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\Elevator_M42_Echipa4_MarkupCompile.lref
-C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\App.baml
 C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\MainWindow.baml
 C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\Elevator_M42_Echipa4.g.resources
 C:\ANUL 3\SEMESTRUL 2\PS2 (Iercan)\E4_M42_Elevator_Simulator\obj\Debug\Elevator_M42_Echipa4.Properties.Resources.resources
