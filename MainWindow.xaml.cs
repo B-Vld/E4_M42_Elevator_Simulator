@@ -32,11 +32,9 @@ namespace Elevator_M42_Echipa4
 
             Slider.IsEnabled = false;
 
-            MyElevator = new Elevator { CurrentPosition = 0d, State = (ElevatorStates)2, ElevatorSpeed = 0.01d };
+            MyElevator = new Elevator { CurrentPosition = 0d, State = ElevatorStates.Idle, ElevatorSpeed = 0.01d };
 
         }
-
-        List<Task> TaskList = new List<Task>();
 
         #region Buttons
 
@@ -88,7 +86,7 @@ namespace Elevator_M42_Echipa4
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider slider = sender as Slider;
-            MyElevator.State = (ElevatorStates)3;
+            MyElevator.State = ElevatorStates.Stopped;
         }
 
         #endregion
@@ -123,7 +121,7 @@ namespace Elevator_M42_Echipa4
             switch (ECurrentState)
             {
                 case ElevatorStates.Idle:
-                    await Task.Delay(500);
+                    await Task.Delay(300);
                     EnableUI();
                     return;
                 case ElevatorStates.GoingUp:
@@ -141,7 +139,7 @@ namespace Elevator_M42_Echipa4
         {
             while (Slider.Value < destinationPos)
             {
-                if (MyElevator.State == ElevatorStates.Stopped || MyElevator.State==ElevatorStates.Idle)
+                if (MyElevator.State == ElevatorStates.Stopped)
                 {
                     await Task.Delay(1);
                     return;
@@ -162,7 +160,7 @@ namespace Elevator_M42_Echipa4
         {
             while (Slider.Value > destinationPos)
             {
-                if (MyElevator.State == ElevatorStates.Stopped || MyElevator.State == ElevatorStates.Idle)
+                if (MyElevator.State == ElevatorStates.Stopped)
                 {
                     await Task.Delay(1);
                     return;
@@ -180,7 +178,7 @@ namespace Elevator_M42_Echipa4
 
         private void StopElevator()
         {
-            MyElevator.State = (ElevatorStates)3;
+            MyElevator.State = ElevatorStates.Stopped;
         }
 
         private void UpdateCurrentPositionLabel(double value)

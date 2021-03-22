@@ -24,8 +24,8 @@ namespace Elevator_M42_Echipa4
         public ElevatorStates State { get; set; }
         public double ElevatorSpeed { get; set; }
 
-
         #region HelperElevatorFunctions
+
 
         private bool isDestinationTheSame(Elevator e, int destinationPos)
         {

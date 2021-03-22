@@ -40,7 +40,6 @@
                     Foreground="White" 
                     TickPlacement="TopLeft" 
                     Maximum="5" 
-                    
                     />
         </Grid>
     </Grid>
