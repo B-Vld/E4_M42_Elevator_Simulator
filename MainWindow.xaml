@@ -5,29 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Elevator_M42_Echipa4"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Elevator Simulator E42" Height="450" Width="800"
+        Icon="elevator.ico"
+        ResizeMode="CanMinimize">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+
+    </Window.Resources>
     <Grid>
         <Grid x:Name="MainGrid" Margin="20,0,20,0" Visibility="Visible">
             <Grid.RowDefinitions>
-                <RowDefinition Height="15*" />
-                <RowDefinition Height="404*" />
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="404*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" MinWidth="150" />
             </Grid.ColumnDefinitions>
+
             <Button x:Name="FloorButton0" Content="S0" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,60,120"  Click="FloorButton0_Click"/>
             <Button x:Name="FloorButton1" Content="S1" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="60,0,0,120"  Click="FloorButton1_Click"/>
             <Button x:Name="FloorButton2" Content="S2" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,60,0"    Click="FloorButton2_Click"/>
             <Button x:Name="FloorButton3" Content="S3" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="60,0,0,0"    Click="FloorButton3_Click"/>
             <Button x:Name="FloorButton4" Content="S4" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="0,120,60,0"  Click="FloorButton4_Click"/>
             <Button x:Name="FloorButton5" Content="S5" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="60,120,0,0"  Click="FloorButton5_Click"/>
-            <Button x:Name="CenterButton" Visibility="Hidden" Content="Center" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center"/>
             <Button x:Name="FloorButtonStop" Content="STOP" Grid.Column="1" HorizontalAlignment="Center" Height="50" Width="50" Grid.Row="1" VerticalAlignment="Center" Margin="203,295,201,61"  Click="FloorButtonStop_Click"/>
 
             <Label x:Name="CurrentPositionLabel" Content="Current Position : 0" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,210"/>
-            
+
             <Slider x:Name="Slider" 
                     Grid.Column="1" 
                     Grid.Row="1" 
@@ -41,6 +48,164 @@
                     TickPlacement="TopLeft" 
                     Maximum="5" 
                     />
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+
+                <Canvas Grid.Column="1" Grid.Row="2">
+                    <Polygon Points="36,10 60,60, 10,60" 
+                             Stroke="Black" 
+                             Fill="DarkGreen" 
+                             Canvas.Left="-6" 
+                             Canvas.Top="17" 
+                             Visibility="{Binding Path=isElevatorStateGoingUp,
+                                          Converter={StaticResource BoolToVisConverter}}"
+                             />
+                </Canvas>
+
+
+                <Canvas Grid.Column="1" Grid.Row="3">
+                    <Ellipse Width="50" 
+                             Height="50"
+                             Canvas.Top="18" 
+                             Fill="Red" 
+                             Stroke="Black"
+                             
+                        Visibility="{Binding Path=isElevatorStateStopped, 
+                                          Converter={StaticResource BoolToVisConverter}}" Canvas.Left="4">
+                    </Ellipse>
+                </Canvas>
+
+                <Canvas Grid.Row="5" Grid.Column="1">
+                    <Polygon Points="10,10 36,60, 60,10" 
+                             Stroke="Black" 
+                             Fill="DarkGreen" 
+                             Canvas.Left="-6"
+                             Canvas.Top="-10" 
+                             Visibility="{Binding Path=isElevatorStateGoingDown,
+                                          Converter={StaticResource BoolToVisConverter}}"
+                             />
+                </Canvas>
+
+                <Canvas Grid.Row="4" Grid.Column="1">
+
+                    <Rectangle Width="50" 
+                               Height="40" 
+                               HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Center"
+                               Fill="Orange" 
+                               Canvas.Top="20"
+                               Stroke="Black"
+                               Visibility="{Binding Path=isElevatorStateIdle,
+                                          Converter={StaticResource BoolToVisConverter}}" Canvas.Left="4"
+                               >
+                    </Rectangle>
+
+                    <Label 
+                             Background="Transparent"
+                             Foreground="White"
+                             Content="IDLE" Canvas.Left="13" Canvas.Top="26"
+                             Visibility="{Binding Path=isElevatorStateIdle,
+                                          Converter={StaticResource BoolToVisConverter}}"
+                             >
+                    </Label>
+
+                </Canvas>
+
+                <Label Grid.Column="1" Grid.Row="2" 
+                     
+                     Content="ASC" Margin="13,49,12,1" 
+                     Background="Transparent"
+                         
+                         Foreground="White"
+                         Visibility="{Binding Path=isElevatorStateGoingUp,
+                                          Converter={StaticResource BoolToVisConverter}}" RenderTransformOrigin="0.51,0.738"
+                         />
+                <Label Grid.Column="1" Grid.Row="5" 
+                     
+                     Content="DSC" Margin="13,0,4,52" 
+                     Background="Transparent"
+                         Foreground="White"
+                         Visibility="{Binding Path=isElevatorStateGoingDown,
+                                          Converter={StaticResource BoolToVisConverter}}" RenderTransformOrigin="0.5,0.5"
+                         >
+                </Label>
+
+                <Label Grid.Column="1" Grid.Row="3" 
+                    
+                     Content="STOP" Margin="10,30,9,21" 
+                     Background="Transparent"
+                         Foreground="White"
+                         Visibility="{Binding Path=isElevatorStateStopped,
+                                          Converter={StaticResource BoolToVisConverter}}"
+                         />
+            </Grid>
+            <Label Content="Current state of the elevator :"
+                   Grid.Column="1" 
+                   HorizontalAlignment="Left" 
+                   Margin="407,84,0,0" 
+                   Grid.Row="1" 
+                   VerticalAlignment="Top" 
+                   Width="172" 
+                   Grid.ColumnSpan="2"
+                   />
+            <Label Content="Set the speed" 
+                   Grid.Column="1" 
+                   HorizontalAlignment="Left" 
+                   Margin="0,88,0,0" Grid.Row="1" 
+                   VerticalAlignment="Top" 
+                   Height="25" 
+                   Width="85"/>
+            <Label Content="of the elevator" 
+                Grid.Column="1" 
+                HorizontalAlignment="Left" 
+                Margin="0,109,0,0" Grid.Row="1" 
+                VerticalAlignment="Top" 
+                Height="25" 
+                Width="88"/>
+            <Label Content="MAX (0.25m/s) :" 
+                Grid.Column="1" 
+                HorizontalAlignment="Left" 
+                Margin="0,131,0,0" Grid.Row="1" 
+                VerticalAlignment="Top" 
+                Height="26" 
+                Width="93"/>
+
+            <TextBox x:Name="TextBox_Speed"
+                     Grid.Column="1" 
+                     HorizontalAlignment="Left" 
+                     Height="23" 
+                     Margin="0,160,0,0" 
+                     Grid.Row="1" 
+                     TextWrapping="Wrap" 
+                     Text="0.1"
+                     TextAlignment="Center"
+                     VerticalAlignment="Top" 
+                     Width="89"/>
+            <Button Content="Validate speed" 
+                    HorizontalAlignment="Left" 
+                    Margin="0,192,0,0" 
+                    Grid.Row="1" 
+                    VerticalAlignment="Top" 
+                    Width="89" 
+                    Height="23" Grid.Column="1"
+                    Click="Button_Validate_Speed"/>
+
         </Grid>
     </Grid>
+
 </Window>

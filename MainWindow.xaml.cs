@@ -1,20 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Elevator_M42_Echipa4
 {
@@ -30,9 +18,15 @@ namespace Elevator_M42_Echipa4
         {
             InitializeComponent();
 
+            Uri iconUri = new Uri("pack://application:,,,/elevator.ico", UriKind.Absolute);
+
+            this.Icon = BitmapFrame.Create(iconUri);
+
             Slider.IsEnabled = false;
 
-            MyElevator = new Elevator { CurrentPosition = 0d, State = ElevatorStates.Idle, ElevatorSpeed = 0.01d };
+            MyElevator = new Elevator { CurrentPosition = 0d, State = ElevatorStates.Idle, ElevatorSpeed = 0.01d , isElevatorStateGoingDown = false , isElevatorStateGoingUp = false, isElevatorStateStopped = false, isElevatorStateIdle = true };
+
+            this.DataContext = MyElevator;
 
         }
 
@@ -72,6 +66,31 @@ namespace Elevator_M42_Echipa4
         {
             DisableUI();
             MoveSlider(5);
+        }
+
+        private void Button_Validate_Speed(object sender, RoutedEventArgs e)
+        {
+            string SpeedOfElevator = TextBox_Speed.Text;
+            var isNumeric = double.TryParse(SpeedOfElevator, out double speed);
+            if (!isNumeric)
+            {
+                TextBox_Speed.Text = "0.1";
+                MessageBox.Show("Enter a valid number between (0-0.25) !");
+            }else
+            {
+                if(speed>0d && speed <= 0.25d)
+                {
+                    string tempString = "Validated at "+ speed.ToString();
+                    MessageBox.Show(tempString);
+                    MyElevator.ElevatorSpeed = speed * Math.Pow(10, -1);
+                }
+                else
+                {
+                    TextBox_Speed.Text = "0.25";
+                    MessageBox.Show("Input has to be lower of equal to the maximum speed !");
+                    MyElevator.ElevatorSpeed = speed * Math.Pow(10, -1);
+                }
+            }
         }
 
         private void FloorButtonStop_Click(object sender, RoutedEventArgs e)
@@ -118,17 +137,29 @@ namespace Elevator_M42_Echipa4
             double elevatorSpeed = MyElevator.ElevatorSpeed;
             MyElevator.determineDirection(MyElevator, destinationPos);
             ElevatorStates ECurrentState = MyElevator.State;
+            MyElevator.isElevatorStateStopped = false;
+            MyElevator.isElevatorStateIdle = false;
             switch (ECurrentState)
             {
                 case ElevatorStates.Idle:
+                    MyElevator.isElevatorStateIdle = true;
                     await Task.Delay(300);
                     EnableUI();
                     return;
                 case ElevatorStates.GoingUp:
+                    MyElevator.isElevatorStateGoingUp = true;
                     await MoveUp(elevatorSpeed, destinationPos);
+                    MyElevator.isElevatorStateGoingUp = false;
                     break;
                 case ElevatorStates.GoingDown:
+                    MyElevator.isElevatorStateGoingDown = true;
                     await MoveDown(elevatorSpeed, destinationPos);
+                    MyElevator.isElevatorStateGoingDown = false;
+                    break;
+                case ElevatorStates.Stopped:
+                    MyElevator.isElevatorStateStopped = true;
+                    StopElevator();
+                    MyElevator.isElevatorStateStopped = false;
                     break;
             }
             EnableUI();
@@ -137,6 +168,7 @@ namespace Elevator_M42_Echipa4
 
         private async Task MoveUp(double speed, int destinationPos)
         {
+            MyElevator.isElevatorStateGoingUp = true;
             while (Slider.Value < destinationPos)
             {
                 if (MyElevator.State == ElevatorStates.Stopped)
@@ -153,6 +185,7 @@ namespace Elevator_M42_Echipa4
             CurrentPositionLabel.Content = $"Current position : {Slider.Value}";
             MyElevator.CurrentPosition = destinationPos;
             MyElevator.State = ElevatorStates.Idle;
+            MyElevator.isElevatorStateIdle = true;
         }
 
 
@@ -174,10 +207,14 @@ namespace Elevator_M42_Echipa4
             CurrentPositionLabel.Content = $"Current position : {Slider.Value}";
             MyElevator.CurrentPosition = destinationPos;
             MyElevator.State = ElevatorStates.Idle;
+            MyElevator.isElevatorStateIdle = true;
         }
 
+        
         private void StopElevator()
         {
+            MyElevator.isElevatorStateStopped = true;
+            MyElevator.isElevatorStateIdle = false;
             MyElevator.State = ElevatorStates.Stopped;
         }
 
@@ -185,6 +222,8 @@ namespace Elevator_M42_Echipa4
         {
             CurrentPositionLabel.Content = $"Current position : {Math.Round(value, 2)}";
         }
+
+
 
         #endregion
 
