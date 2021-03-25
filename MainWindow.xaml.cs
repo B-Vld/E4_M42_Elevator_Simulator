@@ -87,6 +87,7 @@ namespace Elevator_M42_Echipa4
                 else
                 {
                     TextBox_Speed.Text = "0.25";
+                    speed = 0.25;
                     MessageBox.Show("Input has to be lower of equal to the maximum speed !");
                     MyElevator.ElevatorSpeed = speed * Math.Pow(10, -1);
                 }
